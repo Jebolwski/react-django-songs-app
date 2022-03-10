@@ -28,13 +28,13 @@ const AddSong = () => {
   };
 
   let navigate = useNavigate();
-
   let Add = (e) => {
     if (
       artist == null ||
       duration == null ||
       genre == null ||
-      songname == null
+      songname == null ||
+      typeof duration == "number"
     ) {
       e.preventDefault();
     } else {

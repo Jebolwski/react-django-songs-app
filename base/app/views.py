@@ -1,8 +1,30 @@
+from urllib import response
 from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import SongSerializer
+from .serializers import SongSerializer,UserSerializer
 from .models import Song
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+
+
+@api_view(['GET','POST'])
+def Register(request):
+    serializer = UserSerializer(request.data,many=False)
+    return Response(serializer.data)
+
+# @api_view(['GET','POST'])
+# def SignIn(request):
+#     username = request.data.get('username')
+#     password = request.data.get('password')
+    
+#     person = authenticate(
+#             request, username=username, password=password)
+
+#     if person is not None:
+#         login(request,person)
+
+#     return Response("Registered!")
 
 
 @api_view(['GET'])

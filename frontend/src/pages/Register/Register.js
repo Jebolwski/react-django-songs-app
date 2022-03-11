@@ -6,24 +6,6 @@ const Register = () => {
   const [password1, setPassword1] = useState(null);
   const [password2, setPassword2] = useState(null);
 
-  let SingIn = async () => {
-    fetch("/register/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        password1: password1,
-        password2: password2,
-      }),
-    });
-  };
-
-  const Sign_in = () => {
-    SingIn();
-  };
-
   return (
     <>
       <h4>Register</h4>
@@ -61,7 +43,7 @@ const Register = () => {
       />
       <br />
       <br />
-      <button onClick={Sign_in}>Sign In</button>
+      <button>Rgister</button>
     </>
   );
 };

@@ -6,25 +6,22 @@ from .serializers import SongSerializer,UserSerializer
 from .models import Song
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
-@api_view(['GET','POST'])
-def Register(request):
-    serializer = UserSerializer(request.data,many=False)
-    return Response(serializer.data)
 
-# @api_view(['GET','POST'])
-# def SignIn(request):
-#     username = request.data.get('username')
-#     password = request.data.get('password')
-    
-#     person = authenticate(
-#             request, username=username, password=password)
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
 
-#     if person is not None:
-#         login(request,person)
+        token['username'] = user.username
 
-#     return Response("Registered!")
+        return token
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 
 @api_view(['GET'])

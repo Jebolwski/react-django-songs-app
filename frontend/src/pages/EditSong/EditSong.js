@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
 
 const EditSong = () => {
   const { id } = useParams();
+  let {authTokens} = useContext(AuthContext)
+
   const [song, setSong] = useState([]);
 
   const [artist, setArtist] = useState(null);
@@ -23,8 +26,9 @@ const EditSong = () => {
   let updateSong = async () => {
     fetch(`/songs/${id}/update/`, {
       method: "PUT",
-      headers: {
+        headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer" + String(authTokens?.access),
       },
       body: JSON.stringify({
         artist: artist,
@@ -41,7 +45,7 @@ const EditSong = () => {
 
   let Update = () => {
     updateSong();
-    navigate("/songs");
+    navigate("/reccomended-songs");
   };
 
   return (

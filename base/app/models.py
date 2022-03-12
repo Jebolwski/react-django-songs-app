@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 GENRES = (
     ('Rock','Rock'),
@@ -12,6 +12,7 @@ GENRES = (
 )
 
 class Song(models.Model):
+    user  = models.ForeignKey(User,on_delete=models.CASCADE,null=False,blank=False)
     name = models.CharField(max_length=50,null=False,blank=False)
     artist = models.CharField(max_length=50,null=False,blank=False)
     duration = models.IntegerField(null=False,blank=False)

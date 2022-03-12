@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+import AuthContext from "../../context/AuthContext";
 const DeleteSong = () => {
   let navigate = useNavigate();
-
+  let {authTokens} = useContext(AuthContext)
   const { id } = useParams();
   const [song, setSong] = useState([]);
 
@@ -27,9 +27,10 @@ const DeleteSong = () => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer" + String(authTokens?.access),
       },
     });
-    navigate("/songs");
+    navigate("/reccomended-songs");
   };
 
   let Delete = () => {

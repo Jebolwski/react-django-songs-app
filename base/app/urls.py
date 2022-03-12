@@ -6,8 +6,9 @@ from rest_framework_simplejwt.views import (
 )
 
 urlpatterns = [
-    path('songs/', views.Songs,name='songs'),
-    path('songs/<int:pk>/', views.SongDetail,name = 'song-detail'),
+    path('songs/', views.ReccomendedSongs,name='songs'),
+    path('user-songs/', views.UserSongs,name='user-songs'),
+    path('songs/<int:pk>/', views.SongDetail,name='song-detail'),
     path('songs/add/', views.AddSong,name='song-add'),
     path('songs/<int:pk>/update/', views.UpdateSong,name='song-update'),
     path('songs/<int:pk>/delete/', views.DeleteSong,name='song-delete'),

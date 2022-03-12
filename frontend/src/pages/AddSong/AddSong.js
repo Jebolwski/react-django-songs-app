@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 const AddSong = () => {
   const { id } = useParams();
   const [song, setSong] = useState([]);
-
+  let {authTokens} = useContext(AuthContext)
   const [artist, setArtist] = useState(null);
   const [duration, setDuration] = useState(null);
   const [genre, setGenre] = useState(null);
@@ -15,6 +16,7 @@ const AddSong = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer" + String(authTokens?.access),
       },
       body: JSON.stringify({
         artist: artist,
@@ -23,8 +25,6 @@ const AddSong = () => {
         genres: genre,
       }),
     });
-    let body1 = JSON.stringify(artist, songname, duration, genre);
-    console.log(body1);
   };
 
   let navigate = useNavigate();
@@ -39,7 +39,7 @@ const AddSong = () => {
       e.preventDefault();
     } else {
       addSong();
-      navigate("/songs");
+      navigate("/reccomended-songs/");
     }
   };
 

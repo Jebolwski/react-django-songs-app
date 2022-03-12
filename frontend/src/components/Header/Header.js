@@ -11,8 +11,13 @@ const Header = () => {
         <li>
           <Link to="/">Home</Link>
         </li>
+        {user ? (
+          <li>
+            <Link to={"/user-songs/"}>Your Songs</Link>
+          </li>
+        ) : null}
         <li>
-          <Link to="songs/">Songs</Link>
+          <Link to="reccomended-songs/">Reccomended Songs</Link>
         </li>
         <li>Contact Us</li>
         {user ? (

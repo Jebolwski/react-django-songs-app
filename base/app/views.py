@@ -1,13 +1,15 @@
 from urllib import response
 from django.shortcuts import redirect, render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .serializers import SongSerializer,UserSerializer
+from .serializers import SongSerializer
 from .models import Song
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.contrib.auth.models import User
 
 
 
@@ -25,9 +27,18 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 @api_view(['GET'])
-def Songs(request):
-    songs = Song.objects.all()
+def ReccomendedSongs(request):
+    admin = User.objects.get(username="Yönetici")
+    songs = Song.objects.all().filter(user_id=admin.id)
     serializer = SongSerializer(songs,many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def UserSongs(request):
+    notes = Song.objects.all().filter(user_id=request.user.id)
+    print(notes)
+    serializer = SongSerializer(notes, many=True)
     return Response(serializer.data)
 
 

@@ -1,34 +1,19 @@
-import "./App.css";
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AddSong from "./pages/AddSong/AddSong";
-import Songs from "./pages/Songs/Songs";
-import SongDetail from "./pages/SongDetail/SongDetail";
-import DeleteSong from "./pages/DeleteSong/DeleteSong";
-import EditSong from "./pages/EditSong/EditSong";
-import SignIn from "./pages/SignIn/SingIn";
-import Home from "./pages/Home/Home";
-import Register from "./pages/Register/Register";
-import UserSongs from "./pages/UserSongs/UserSongs";
-import Header from "./components/Header/Header";
-import { AuthProvider } from "./context/AuthContext";
+import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
+
+import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
+import Header from './components/Header'
+
 function App() {
   return (
     <div className="App">
       <Router>
         <AuthProvider>
-          <Header />
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route path="/sign-in/" element={<SignIn />} />
-            <Route path="/register/" element={<Register />} />
-            <Route path="/user-songs/" element={<UserSongs />} />
-            <Route path="/reccomended-songs/" element={<Songs />} />
-            <Route path="/add-song/" element={<AddSong />} />
-            <Route path="/delete-song/:id/" element={<DeleteSong />} />
-            <Route path="/edit-song/:id/" element={<EditSong />} />
-            <Route path="/song-detail/:id/" element={<SongDetail />} />
-          </Routes>
+          <Header/>
+          <Route component={HomePage} path="/" exact/>
+          <Route component={LoginPage} path="/login"/>
         </AuthProvider>
       </Router>
     </div>

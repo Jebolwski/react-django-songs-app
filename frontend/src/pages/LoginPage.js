@@ -5,7 +5,7 @@ const LoginPage = () => {
     let {loginUser} = useContext(AuthContext)
     return (
         <div>
-            <form onSubmit={loginUser}>
+            <form method='POST' onSubmit={loginUser}>
                 <input type="text" name="username" placeholder="Enter Username" />
                 <input type="password" name="password" placeholder="Enter Password" />
                 <input type="submit"/>

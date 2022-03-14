@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react'
-import AuthContext from '../context/AuthContext'
-
+import AuthContext from '../context/AuthContext';
+import Song from "../components/Song"
 const HomePage = () => {
-    let [notes, setNotes] = useState([])
+    let [songs, setSongs] = useState([])
     let {authTokens, logoutUser} = useContext(AuthContext)
 
     useEffect(()=> {
@@ -11,7 +11,7 @@ const HomePage = () => {
 
 
     let getNotes = async() =>{
-        let response = await fetch('http://127.0.0.1:8000/api/notes/', {
+        let response = await fetch('http://127.0.0.1:8000/api/songs/', {
             method:'GET',
             headers:{
                 'Content-Type':'application/json',
@@ -21,7 +21,7 @@ const HomePage = () => {
         let data = await response.json()
 
         if(response.status === 200){
-            setNotes(data)
+            setSongs(data)
         }else if(response.statusText === 'Unauthorized'){
             logoutUser()
         }
@@ -34,8 +34,8 @@ const HomePage = () => {
 
 
             <ul>
-                {notes.map(note => (
-                    <li key={note.id} >{note.body}</li>
+                {songs.map(song => (
+                    <Song key={song.id} song={song} />
                 ))}
             </ul>
         </div>

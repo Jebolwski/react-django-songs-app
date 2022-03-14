@@ -1,6 +1,6 @@
-import { createContext, useState, useEffect } from 'react'
+import { createContext, useState, useEffect} from 'react'
 import jwt_decode from "jwt-decode";
-import { useHistory } from 'react-router-dom'
+import { useHistory} from "react-router-dom";
 
 const AuthContext = createContext()
 
@@ -12,9 +12,9 @@ export const AuthProvider = ({children}) => {
     let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
     let [loading, setLoading] = useState(true)
 
-    const history = useHistory()
+     let navigate = useHistory();
 
-    let loginUser = async (e )=> {
+    let loginUser = async (e)=> {
         e.preventDefault()
         let response = await fetch('http://127.0.0.1:8000/api/token/', {
             method:'POST',
@@ -29,20 +29,10 @@ export const AuthProvider = ({children}) => {
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
-            history.push('/')
+            navigate.push('/')
         }else{
             alert('Something went wrong!')
         }
-
-        let response1 = await fetch('http://127.0.0.1:8000/api/login/', {
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({'username':e.target.username.value, 'password':e.target.password.value})
-        })
-        let data1 = await response1.json()
-        console.log(data1);
     }
 
 
@@ -50,7 +40,7 @@ export const AuthProvider = ({children}) => {
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem('authTokens')
-        history.push('/login')
+        navigate.push('/login')
     }
 
 
@@ -79,11 +69,23 @@ export const AuthProvider = ({children}) => {
         }
     }
 
+    let registerUser = async (e)=>{
+        let response = await fetch('/api/register/',{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({'username':e.target.username.value,'email':e.target.email.value, 'password':e.target.password1.value})
+        })
+        navigate.push("/login");
+    }
+
     let contextData = {
         user:user,
         authTokens:authTokens,
         loginUser:loginUser,
         logoutUser:logoutUser,
+        registerUser:registerUser,
     }
 
 

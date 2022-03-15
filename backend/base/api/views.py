@@ -32,7 +32,10 @@ def getRoutes(request):
     routes = [
         '/api/token',
         '/api/token/refresh',
-        '/login/'
+        '/register/',
+        '/songs/',
+        '/add-song/',
+        '/song/<int:pk>',
     ]
 
     return Response(routes)
@@ -64,3 +67,33 @@ def SongDetail(request,pk):
     song = Song.objects.get(id=pk)
     serializer = SongSerializer(song, many=False)
     return Response(serializer.data)
+
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
+def AddSong(request):
+    user = request.user
+    if request.method=="POST":
+        fake_data = request.data.copy()
+        fake_data['owner'] = request.user.id
+        serializer = SongSerializer(data = fake_data)
+        if serializer.is_valid():
+            serializer.save()
+    return Response(serializer.data)
+
+@api_view(['GET','PUT'])
+@permission_classes([IsAuthenticated])
+def EditSong(request,pk):
+    fake_data = request.data.copy()
+    fake_data['owner'] = request.user.id
+    song = Song.objects.get(id=pk)
+    serializer= SongSerializer(instance=song,data=fake_data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['GET','DELETE'])
+@permission_classes([IsAuthenticated])
+def DeleteSong(request,pk):
+    song = Song.objects.get(id=pk)
+    song.delete()
+    return Response("Song Deleted")

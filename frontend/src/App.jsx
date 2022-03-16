@@ -1,7 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-
 import HomePage from "./pages/HomePage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
@@ -11,6 +10,7 @@ import Songs from "./pages/Songs";
 import Header from "./components/Header";
 import ProtectedRoutes from "./ProtectedRoutes";
 import EditSong from "./pages/EditSong";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -28,6 +28,7 @@ function App() {
               <Route path="/login/" element={<LoginPage />} />
               <Route path="/register/" element={<RegisterPage />} />
             </Route>
+            <Route path="/fouronefour" element={<NotFound />} />
           </Routes>
         </AuthProvider>
       </Router>

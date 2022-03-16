@@ -8,6 +8,7 @@ const AddSong = () => {
   let { authTokens } = useContext(AuthContext);
 
   let addSong = async (e) => {
+    e.preventDefault();
     let response = await fetch("http://127.0.0.1:8000/api/add-song/", {
       method: "POST",
       headers: {
@@ -21,7 +22,7 @@ const AddSong = () => {
       }),
     });
     if (response.status == 200) {
-      navigate("/");
+      navigate("/songs");
     } else {
       console.log(response.status);
       alert("Wot!");
@@ -41,7 +42,7 @@ const AddSong = () => {
         <input type="text" name="duration" placeholder="Duration" />
         <br />
         <br />
-        <input type="submit" />
+        <input type="submit" value="Add" />
       </form>
     </div>
   );

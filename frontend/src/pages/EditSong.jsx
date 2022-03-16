@@ -21,8 +21,9 @@ const EditSong = () => {
   };
   useEffect(() => {
     Song();
-  }, []);
+  }, [song]);
   let editSong = async (e) => {
+    e.preventDefault();
     let response = await fetch(`http://127.0.0.1:8000/api/song/${id}/edit/`, {
       method: "PUT",
       headers: {
@@ -36,11 +37,9 @@ const EditSong = () => {
       }),
     });
     if (response.status === 200) {
-      alert("Com.!");
-      navigate("/");
+      navigate("/songs");
     } else {
-      console.log(response.status);
-      alert("Dam!");
+      alert("Error!");
     }
   };
   return (
@@ -71,7 +70,7 @@ const EditSong = () => {
         />
         <br />
         <br />
-        <input type="submit" />
+        <input type="submit" value="Edit" />
       </form>
     </div>
   );

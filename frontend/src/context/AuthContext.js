@@ -17,9 +17,14 @@ export const AuthProvider = ({ children }) => {
       ? jwt_decode(localStorage.getItem("authTokens"))
       : null
   );
+
+  let [songs, setSongs] = useState([]);
+
   let [loading, setLoading] = useState(true);
 
   let navigate = useNavigate();
+
+  const [currentPage, setCurrentPage] = useState(1);
 
   let loginUser = async (e) => {
     e.preventDefault();
@@ -88,13 +93,6 @@ export const AuthProvider = ({ children }) => {
         password: e.target.password.value,
       }),
     });
-    console.log(
-      JSON.stringify({
-        username: e.target.username.value,
-        email: e.target.email.value,
-        password: e.target.password.value,
-      })
-    );
     if (response.status == 200) {
       navigate("/login");
     } else {
@@ -103,12 +101,45 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  let deleteSong = async () => {
+    let response = await fetch(
+      `http://127.0.0.1:8000/api/song/${songs.id}/delete/`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+      }
+    );
+    getSongs();
+  };
+
+  let getSongs = async () => {
+    let response = await fetch("http://127.0.0.1:8000/api/songs/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + String(authTokens.access),
+      },
+    });
+    let data = await response.json();
+
+    if (response.status === 200) {
+      setSongs(data);
+    } else if (response.statusText === "Unauthorized") {
+      logoutUser();
+    }
+  };
+
   let contextData = {
     user: user,
     authTokens: authTokens,
+    songs: songs,
     loginUser: loginUser,
     logoutUser: logoutUser,
     registerUser: registerUser,
+    getSongs: getSongs,
   };
 
   useEffect(() => {

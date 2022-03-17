@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 const EditSong = () => {
-  let { authTokens } = useContext(AuthContext);
+  let { authTokens, getSongs } = useContext(AuthContext);
   let navigate = useNavigate();
   const [song, setSong] = useState([]);
 
@@ -19,9 +19,11 @@ const EditSong = () => {
     console.log(data);
     setSong(data);
   };
+
   useEffect(() => {
     Song();
-  }, [song]);
+  }, []);
+
   let editSong = async (e) => {
     e.preventDefault();
     let response = await fetch(`http://127.0.0.1:8000/api/song/${id}/edit/`, {

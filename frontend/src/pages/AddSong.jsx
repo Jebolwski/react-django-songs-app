@@ -19,6 +19,7 @@ const AddSong = () => {
         name: e.target.name.value,
         artist: e.target.artist.value,
         duration: e.target.duration.value,
+        url: e.target.url.value,
       }),
     });
     if (response.status == 200) {
@@ -40,6 +41,9 @@ const AddSong = () => {
         <br />
         <br />
         <input type="text" name="duration" placeholder="Duration" />
+        <br />
+        <br />
+        <input type="text" name="url" placeholder="Song's URL" />
         <br />
         <br />
         <input type="submit" value="Add" />

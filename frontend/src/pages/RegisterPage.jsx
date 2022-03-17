@@ -2,12 +2,23 @@ import React, { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
 const RegisterPage = () => {
-  let password = document.getElementsByClassName("password");
-  let password1 = document.getElementsByClassName("password1");
   let { registerUser } = useContext(AuthContext);
+
+  let register = (e) => {
+    e.preventDefault();
+    if (e.target.password.value !== e.target.password1.value) {
+      alert("Passwords dont match!");
+      console.log("Wrong");
+      e.target.password.value = "";
+      e.target.password1.value = "";
+    } else {
+      registerUser();
+    }
+  };
+
   return (
     <div>
-      <form onSubmit={registerUser}>
+      <form onSubmit={register}>
         <input type="text" name="username" placeholder="Enter Username" />
         <br />
         <br />
@@ -30,7 +41,11 @@ const RegisterPage = () => {
         />
         <br />
         <br />
-        <input type="submit" />
+        <input
+          type="submit"
+          value="Register"
+          className="btn btn-outline-dark"
+        />
       </form>
     </div>
   );

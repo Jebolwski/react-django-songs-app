@@ -27,6 +27,7 @@ const SongDetail = () => {
       <h4>Song Detail</h4>
       <p>{song.name}</p>
       <p>{song.artist}</p>
+      <p>{song.url}</p>
       <p>{song.duration}</p>
     </div>
   );

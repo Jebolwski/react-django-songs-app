@@ -1,35 +1,61 @@
 import React, { useContext } from "react";
 import { Link, Redirect } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-
 const Header = () => {
   let { user, logoutUser } = useContext(AuthContext);
   return (
-    <div>
-      {user ? null : (
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-      )}
-      {user ? (
-        <li>
-          <Link to="/songs/">Songs</Link>
-        </li>
-      ) : null}
-      {user ? (
-        <li onClick={logoutUser}>Logout</li>
-      ) : (
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
-      )}
+    <div className="col-12 p-0 m-0">
+      <ul className="d-flex list-unstyled justify-content-evenly bg-dark align-items-center pt-2 pb-2">
+        {user ? null : (
+          <li>
+            <Link to="/" className="text-decoration-none text-white">
+              Home
+            </Link>
+          </li>
+        )}
+        {user ? (
+          <li>
+            <Link to="/songs/" className="text-decoration-none text-white">
+              Songs
+            </Link>
+          </li>
+        ) : null}
+        {user ? (
+          <li className="text-decoration-none text-white">
+            {user && <>Hello , {user.username}</>}
+          </li>
+        ) : (
+          <li className="text-decoration-none text-white">Welcome!</li>
+        )}
 
-      {user && <p>Hello , {user.username}</p>}
-      {user ? null : (
-        <li>
-          <Link to="/register/">Register</Link>
-        </li>
-      )}
+        {user ? (
+          <li
+            onClick={logoutUser}
+            className="text-decoration-none text-white"
+            role="button"
+          >
+            Logout
+          </li>
+        ) : (
+          <li>
+            <Link
+              to="/login"
+              className="text-decoration-none text-white"
+              role="button"
+            >
+              Login
+            </Link>
+          </li>
+        )}
+
+        {user ? null : (
+          <li className="text-decoration-none text-white" role="button">
+            <Link to="/register/" className="text-decoration-none text-white">
+              Register
+            </Link>
+          </li>
+        )}
+      </ul>
       <br />
     </div>
   );

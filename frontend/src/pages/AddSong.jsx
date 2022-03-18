@@ -46,7 +46,7 @@ const AddSong = () => {
         <input type="text" name="url" placeholder="Song's URL" />
         <br />
         <br />
-        <input type="submit" value="Add" />
+        <input type="submit" value="Add" className="btn btn-outline-dark" />
       </form>
     </div>
   );

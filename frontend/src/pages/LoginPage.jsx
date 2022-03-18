@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
 const LoginPage = () => {
-  let { loginUser } = useContext(AuthContext);
+  let { loginUser, error_message } = useContext(AuthContext);
+  console.log(loginUser.status);
   return (
     <div>
       <form method="POST" onSubmit={loginUser}>

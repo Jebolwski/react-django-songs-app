@@ -18,14 +18,11 @@ export const AuthProvider = ({ children }) => {
       : null
   );
 
-  let [songs, setSongs] = useState([]);
-
   let [loading, setLoading] = useState(true);
 
   let navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
-
   let loginUser = async (e) => {
     e.preventDefault();
     let response = await fetch("http://127.0.0.1:8000/api/token/", {
@@ -45,8 +42,6 @@ export const AuthProvider = ({ children }) => {
       setUser(jwt_decode(data.access));
       localStorage.setItem("authTokens", JSON.stringify(data));
       navigate("/");
-    } else {
-      alert("Something went wrong!");
     }
   };
 
@@ -101,45 +96,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  let deleteSong = async () => {
-    let response = await fetch(
-      `http://127.0.0.1:8000/api/song/${songs.id}/delete/`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(authTokens.access),
-        },
-      }
-    );
-    getSongs();
-  };
-
-  let getSongs = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/songs/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(authTokens.access),
-      },
-    });
-    let data = await response.json();
-
-    if (response.status === 200) {
-      setSongs(data);
-    } else if (response.statusText === "Unauthorized") {
-      logoutUser();
-    }
-  };
-
   let contextData = {
     user: user,
     authTokens: authTokens,
-    songs: songs,
     loginUser: loginUser,
     logoutUser: logoutUser,
     registerUser: registerUser,
-    getSongs: getSongs,
   };
 
   useEffect(() => {

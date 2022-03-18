@@ -72,6 +72,14 @@ const EditSong = () => {
         />
         <br />
         <br />
+        <input
+          type="text"
+          name="url"
+          placeholder="Duration"
+          defaultValue={song.url}
+        />
+        <br />
+        <br />
         <input type="submit" value="Edit" />
       </form>
     </div>

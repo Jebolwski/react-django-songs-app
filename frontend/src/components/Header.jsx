@@ -6,13 +6,11 @@ const Header = () => {
   return (
     <div className="col-12 p-0 m-0">
       <ul className="d-flex list-unstyled justify-content-evenly bg-dark align-items-center pt-2 pb-2">
-        {user ? null : (
-          <li>
-            <Link to="/" className="text-decoration-none text-white">
-              Home
-            </Link>
-          </li>
-        )}
+        <li>
+          <Link to="/" className="text-decoration-none text-white">
+            Home
+          </Link>
+        </li>
         {user ? (
           <li>
             <Link to="/songs/" className="text-decoration-none text-white">

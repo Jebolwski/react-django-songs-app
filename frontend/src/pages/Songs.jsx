@@ -6,7 +6,7 @@ import Pagination from "../components/Pagination";
 const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  let { authTokens, logoutUser } = useContext(AuthContext);
+  let { authTokens, logoutUser, user } = useContext(AuthContext);
 
   let [songs, setSongs] = useState([]);
 
@@ -55,7 +55,6 @@ const HomePage = () => {
   return (
     <div>
       <ul>
-        <h3>Your Songs</h3>
         <br />
         <Link to="/add-song/">
           <button className="btn btn-outline-dark">Add Song</button>

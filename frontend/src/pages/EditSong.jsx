@@ -36,10 +36,11 @@ const EditSong = () => {
         artist: e.target.artist.value,
         name: e.target.name.value,
         duration: e.target.duration.value,
+        url: e.target.url.value,
       }),
     });
     if (response.status === 200) {
-      navigate("/songs");
+      navigate("/songs/");
     } else {
       alert("Error!");
     }

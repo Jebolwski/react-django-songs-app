@@ -20,14 +20,18 @@ const HomePage = ({ song, getSongs, setSongs, songs, deleteSong }) => {
       <h5 onClick={deleteit} role="button">
         Delete
       </h5>
-      <iframe
-        width="220"
-        height="140"
-        src={`https://www.youtube.com/embed/${end_of_url}`}
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
+      {song.url ? (
+        <iframe
+          width="220"
+          height="140"
+          src={`https://www.youtube.com/embed/${end_of_url}`}
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      ) : (
+        <p>No video url</p>
+      )}
       <br />
       <Link to={`/song/${song.id}/edit/`}>Edit</Link>
       <p>{song.duration}</p>

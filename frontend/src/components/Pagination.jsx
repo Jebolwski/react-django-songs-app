@@ -9,9 +9,13 @@ const Pagination = ({ songsPerPage, totalSongs, paginate }) => {
   return (
     <div>
       {pageNumbers.map((number) => (
-        <li key={number}>
-          <a onClick={() => paginate(number)}>{number}</a>
-        </li>
+        <div key={number}>
+          <ul className="list-unstyled ">
+            <li className="btn btn-secondary" onClick={() => paginate(number)}>
+              {number}
+            </li>
+          </ul>
+        </div>
       ))}
     </div>
   );

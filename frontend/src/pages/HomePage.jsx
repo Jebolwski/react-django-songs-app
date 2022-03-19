@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import Song from "../components/Song";
+import Songs from "../pages/Songs";
+import ReccomendedSongs from "./ReccomendedSongs";
 const HomePage = () => {
   let [songs, setSongs] = useState([]);
-  let { authTokens, logoutUser } = useContext(AuthContext);
+  let { authTokens, logoutUser, user } = useContext(AuthContext);
 
   useEffect(() => {
     getNotes();
@@ -27,9 +28,22 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <h2>Home</h2>
-    </div>
+    <>
+      <div className="col-8 offset-4 pt-0">
+        <h5>Reccomended Songs</h5>
+        <ReccomendedSongs />
+      </div>
+      {user ? (
+        <div className="col-4 h-100">
+          <h4>Your Hits</h4>
+          <Songs />
+        </div>
+      ) : (
+        <div className="col-4 h-100">
+          <h5>Login to see your hits...</h5>
+        </div>
+      )}
+    </>
   );
 };
 

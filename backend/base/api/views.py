@@ -1,7 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from ..models import Song
@@ -97,3 +98,17 @@ def DeleteSong(request,pk):
     song = Song.objects.get(id=pk)
     song.delete()
     return Response("Song Deleted")
+
+@api_view(['GET'])
+def ReccomendedSongs(request):
+    user = User.objects.get(username = "Yönetici")
+    songs = Song.objects.all().filter(owner=user)
+    serializer = SongSerializer(songs, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def AllUsers(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)

@@ -27,7 +27,9 @@ const Users = () => {
           <tr>
             <th>Kullanıcı Adı</th>
             <th>Email</th>
-            <th>Son Giriş</th>
+            <th>Date Joined</th>
+            <th>Is Superuser</th>
+            <th>Last Login</th>
           </tr>
         </thead>
         <tbody>
@@ -37,6 +39,8 @@ const Users = () => {
                 <td>{user.username}</td>
                 <td>{user.email}</td>
                 <td>{user.date_joined}</td>
+                <td>{user.is_superuser}</td>
+                <td>{user.last_login}</td>
               </tr>
             ))
           ) : (

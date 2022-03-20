@@ -27,7 +27,7 @@ const HomePage = ({ song, getSongs, setSongs, songs, deleteSong }) => {
           src={`https://www.youtube.com/embed/${end_of_url}`}
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
+          allowFullScreen
         ></iframe>
       ) : (
         <p>No video url</p>

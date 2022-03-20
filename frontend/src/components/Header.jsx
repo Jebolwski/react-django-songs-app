@@ -19,6 +19,13 @@ const Header = () => {
           </li>
         ) : null}
         {user ? (
+          <li>
+            <Link to="/all-users/" className="text-decoration-none text-white">
+              All Users
+            </Link>
+          </li>
+        ) : null}
+        {user ? (
           <li className="text-decoration-none text-white">
             {user && <>Hello , {user.username}</>}
           </li>

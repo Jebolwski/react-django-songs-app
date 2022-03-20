@@ -23,7 +23,7 @@ const AddSong = () => {
       }),
     });
     if (response.status == 200) {
-      navigate("/songs");
+      navigate("/songs/");
     } else {
       console.log(response.status);
       alert("Wot!");

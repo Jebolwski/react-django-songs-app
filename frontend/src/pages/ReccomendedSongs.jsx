@@ -31,7 +31,7 @@ const ReccomendedSongs = () => {
                 )}`}
                 title="YouTube video player"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;fullscreen"
-                allowfullscreen
+                allowFullScreen
               ></iframe>
             ) : (
               <p>No video url</p>

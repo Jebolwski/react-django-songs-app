@@ -19,7 +19,7 @@ const ReccomendedSongs = () => {
     <div>
       {songs ? (
         songs.map((song) => (
-          <div>
+          <div key={song.id}>
             {song.name}, {song.artist}
             {song.url ? (
               <iframe

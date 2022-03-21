@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/AuthContext";
-
+import User from "../components/User";
 const Users = () => {
   const [users, setUsers] = useState([]);
+
   let { authTokens } = useContext(AuthContext);
-  const AllUsers = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/all-users/", {
+
+  useEffect(async () => {
+    let response = await fetch("http://127.0.0.1:8000/api/all-user-status/", {
       method: "GET",
       headers: {
         "Content-type": "application/json",
@@ -13,35 +15,22 @@ const Users = () => {
       },
     });
     let data = await response.json();
-    console.log(data);
     setUsers(data);
-  };
-
-  useEffect(() => {
-    AllUsers();
+    console.log(users);
   }, []);
   return (
     <>
       <table className="table text-center table-striped table-hover">
         <thead>
           <tr>
-            <th>Kullanıcı Adı</th>
+            <th>Username</th>
             <th>Email</th>
-            <th>Date Joined</th>
-            <th>Is Superuser</th>
-            <th>Last Login</th>
           </tr>
         </thead>
         <tbody>
           {users ? (
-            users.map((user) => (
-              <tr>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{user.date_joined}</td>
-                <td>{user.is_superuser}</td>
-                <td>{user.last_login}</td>
-              </tr>
+            users.map((userstatus, index) => (
+              <User key={userstatus.id} userstatus={userstatus} />
             ))
           ) : (
             <h3>No users</h3>

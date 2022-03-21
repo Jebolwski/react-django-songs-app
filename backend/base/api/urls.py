@@ -19,4 +19,6 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('reccomended-songs/', ReccomendedSongs, name='reccomended-songs'),
     path('all-users/', views.AllUsers, name='all-users'),
+    path('user-status/<int:pk>/', views.UserStatusView, name='user-status'),
+    path('all-user-status/', views.AllUserStatus, name='all-user-status'),
 ]

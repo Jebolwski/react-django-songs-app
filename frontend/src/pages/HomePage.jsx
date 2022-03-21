@@ -7,10 +7,10 @@ const HomePage = () => {
   let { authTokens, logoutUser, user } = useContext(AuthContext);
 
   useEffect(() => {
-    getNotes();
+    getSongs();
   }, []);
 
-  let getNotes = async () => {
+  let getSongs = async () => {
     let response = await fetch("http://127.0.0.1:8000/api/songs/", {
       method: "GET",
       headers: {
@@ -31,7 +31,7 @@ const HomePage = () => {
     <>
       <div className="col-8 offset-4 pt-0">
         <h5>Reccomended Songs</h5>
-        <ReccomendedSongs />
+        <ReccomendedSongs key={songs.id} />
       </div>
       {user ? (
         <div className="col-4 h-100">

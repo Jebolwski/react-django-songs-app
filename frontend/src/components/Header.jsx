@@ -18,7 +18,7 @@ const Header = () => {
             </Link>
           </li>
         ) : null}
-        {user ? (
+        {user && user.is_superuser ? (
           <li>
             <Link to="/all-users/" className="text-decoration-none text-white">
               All Users

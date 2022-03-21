@@ -5,10 +5,10 @@ from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from ..models import Song
+from ..models import Song,UserStatus
 
 
-from .serializers import SongSerializer, UserSerializer
+from .serializers import SongSerializer, UserSerializer, UserStatusSerializer
 
 
 
@@ -19,6 +19,11 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add custom claims
         token['username'] = user.username
+        token['email'] = user.email
+        token['is_authenticated'] = user.is_authenticated
+        token['is_superuser'] = user.is_superuser
+
+
         # ...
 
         return token
@@ -49,16 +54,19 @@ def RegisterUser(request):
         print(user)
         if serializer.is_valid():
             serializer.save()
+            print(request.data)
+            UserStatus.objects.create(
+                user=User.objects.get(username=request.data['username']),
+                status = "On Wait",
+            )
+            print(serializer)
         return Response(serializer.data)
     return Response("Enter user data!")
-
-
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getSong(request):
-    user = request.user
-    songs = user.song_set.all()
+    songs = Song.objects.all().filter(owner_id=request.user.id)
     serializer = SongSerializer(songs, many=True)
     return Response(serializer.data)
 
@@ -112,3 +120,23 @@ def AllUsers(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
+
+@api_view(['GET','POST'])
+def AllUserStatus(request):
+    userstatus = UserStatus.objects.all().order_by('user_id')
+    serializer = UserStatusSerializer(userstatus,many=True)
+    if request.method=="POST":
+        UserStatus.objects.update_or_create(
+            user = request.user,
+            status = request.data['status']
+        )
+    return Response(serializer.data)
+
+@api_view(['GET','POST'])
+def UserStatusView(request,pk):
+    if request.method=="POST":
+        serializer = UserStatusSerializer(instance=UserStatus.objects.get(user_id=pk),data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
+    return Response("Enter Data!")

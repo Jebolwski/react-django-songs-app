@@ -12,7 +12,7 @@ const RegisterPage = () => {
       e.target.password.value = "";
       e.target.password1.value = "";
     } else {
-      registerUser();
+      registerUser(e);
     }
   };
 

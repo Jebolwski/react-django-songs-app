@@ -1,4 +1,3 @@
-import re
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -14,3 +13,16 @@ class Song(models.Model):
 
     def __str__(self):
         return self.name
+
+STATUS_CHOICES=(
+    ("Approved","Approved"),
+    ("Not Approved","Not Approved"),
+    ("On Wait","On Wait"),
+    ("Blocked","Blocked"),
+)
+class UserStatus(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    status = models.CharField(max_length=14,choices=STATUS_CHOICES,null=True,blank=True)
+
+    def __str__(self):
+        return str(self.user.username)

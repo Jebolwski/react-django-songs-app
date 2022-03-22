@@ -16,8 +16,24 @@ const Users = () => {
     });
     let data = await response.json();
     setUsers(data);
-    console.log(users);
   }, []);
+
+  let deleteUser = async (id) => {
+    let response = await fetch(`http://127.0.0.1:8000/api/delete-user/${id}/`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + String(authTokens.access),
+      },
+    });
+    if (response.status === 200) {
+      setUsers(
+        users.filter((userstatus) => {
+          return userstatus.user !== id;
+        })
+      );
+    }
+  };
   return (
     <>
       <table className="table text-center table-striped table-hover">
@@ -30,7 +46,11 @@ const Users = () => {
         <tbody>
           {users ? (
             users.map((userstatus, index) => (
-              <User key={userstatus.id} userstatus={userstatus} />
+              <User
+                key={userstatus.id}
+                userstatus={userstatus}
+                deleteUser={deleteUser}
+              />
             ))
           ) : (
             <h3>No users</h3>

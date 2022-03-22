@@ -21,4 +21,5 @@ urlpatterns = [
     path('all-users/', views.AllUsers, name='all-users'),
     path('user-status/<int:pk>/', views.UserStatusView, name='user-status'),
     path('all-user-status/', views.AllUserStatus, name='all-user-status'),
+    path('delete-user/<int:pk>/', views.DeleteUser, name='delete-user'),
 ]

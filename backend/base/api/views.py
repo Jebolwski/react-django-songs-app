@@ -56,7 +56,9 @@ def RegisterUser(request):
             serializer.save()
             print(request.data)
             UserStatus.objects.create(
-                user=User.objects.get(username=request.data['username']),
+                user            = User.objects.get(username=request.data['username']),
+                username        = User.objects.get(username=request.data['username']).username,
+                email           = User.objects.get(username=request.data['username']).email,
                 status = "On Wait",
             )
             print(serializer)
@@ -122,21 +124,35 @@ def AllUsers(request):
     return Response(serializer.data)
 
 @api_view(['GET','POST'])
+@permission_classes([IsAdminUser])
 def AllUserStatus(request):
     userstatus = UserStatus.objects.all().order_by('user_id')
     serializer = UserStatusSerializer(userstatus,many=True)
-    if request.method=="POST":
-        UserStatus.objects.update_or_create(
-            user = request.user,
-            status = request.data['status']
-        )
     return Response(serializer.data)
 
 @api_view(['GET','POST'])
+@permission_classes([IsAdminUser])
 def UserStatusView(request,pk):
     if request.method=="POST":
-        serializer = UserStatusSerializer(instance=UserStatus.objects.get(user_id=pk),data=request.data)
+        data = request.data.copy()
+        user = User.objects.get(id=pk)
+        data['user']=user.id
+        data['username']=user.username
+        data['email']=user.email
+        serializer = UserStatusSerializer(instance=UserStatus.objects.get(user_id=pk),data=data)
         if serializer.is_valid():
             serializer.save()
+            print(serializer)
         return Response(serializer.data)
     return Response("Enter Data!")
+
+@api_view(['GET','POST','DELETE'])
+@permission_classes([IsAdminUser])
+def DeleteUser(request,pk):
+    user = User.objects.get(id=pk)
+    if request.method=="DELETE":
+        user.delete()
+        return Response("Deleted!")
+    return Response("Delete User...")
+    
+    

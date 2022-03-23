@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from ..models import Song,UserStatus
-
+from rest_framework.pagination import PageNumberPagination
 
 from .serializers import SongSerializer, UserSerializer, UserStatusSerializer
 
@@ -66,10 +66,12 @@ def RegisterUser(request):
     return Response("Enter user data!")
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def getSong(request):
     songs = Song.objects.all().filter(owner_id=request.user.id)
-    serializer = SongSerializer(songs, many=True)
+    paginator = PageNumberPagination()
+    paginator.page_size = 5
+    result_page = paginator.paginate_queryset(songs, request)
+    serializer = SongSerializer(result_page, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -113,21 +115,31 @@ def DeleteSong(request,pk):
 def ReccomendedSongs(request):
     user = User.objects.get(username = "Yönetici")
     songs = Song.objects.all().filter(owner=user)
-    serializer = SongSerializer(songs, many=True)
+    paginator = PageNumberPagination()
+    paginator.page_size = 2
+    result_page = paginator.paginate_queryset(songs, request)
+    
+    serializer = SongSerializer(result_page, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def AllUsers(request):
     users = User.objects.all()
-    serializer = UserSerializer(users, many=True)
+    paginator = PageNumberPagination()
+    paginator.page_size = 3
+    result_page = paginator.paginate_queryset(users, request)
+    serializer = UserSerializer(result_page, many=True)
     return Response(serializer.data)
 
 @api_view(['GET','POST'])
 @permission_classes([IsAdminUser])
 def AllUserStatus(request):
     userstatus = UserStatus.objects.all().order_by('user_id')
-    serializer = UserStatusSerializer(userstatus,many=True)
+    paginator = PageNumberPagination()
+    paginator.page_size = 3
+    result_page = paginator.paginate_queryset(userstatus, request)
+    serializer = UserStatusSerializer(result_page,many=True)
     return Response(serializer.data)
 
 @api_view(['GET','POST'])

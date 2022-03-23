@@ -3,12 +3,15 @@ import Song from "../components/Song";
 const ReccomendedSongs = () => {
   const [songs, setSongs] = useState([]);
   let Songs = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/reccomended-songs/", {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
+    let response = await fetch(
+      "http://127.0.0.1:8000/api/reccomended-songs/?page=1",
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    );
     let data = await response.json();
     setSongs(data);
   };

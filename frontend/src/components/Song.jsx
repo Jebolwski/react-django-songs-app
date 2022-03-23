@@ -9,8 +9,11 @@ const HomePage = ({ song, getSongs, setSongs, songs, deleteSong }) => {
   let deleteit = () => {
     deleteSong(song.id);
   };
+  let end_of_url = null;
+  if (song.url != null) {
+    end_of_url = song.url.slice(song.url.length - 11, song.url.length);
+  }
 
-  let end_of_url = song.url.slice(song.url.length - 11, song.url.length);
   return (
     <div>
       <Link to={`/song/${song.id}`} key={song.id}>

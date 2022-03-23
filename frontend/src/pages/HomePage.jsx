@@ -6,18 +6,27 @@ const HomePage = () => {
   let [songs, setSongs] = useState([]);
   let { authTokens, logoutUser, user } = useContext(AuthContext);
 
+  let page_num = 1;
+  if (document.body.scrollTop == window.innerHeight) {
+    page_num = +1;
+    console.log("sad");
+    alert("oldu");
+  }
   useEffect(() => {
     getSongs();
-  }, []);
+  }, [page_num]);
 
   let getSongs = async () => {
-    let response = await fetch("http://127.0.0.1:8000/api/songs/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(authTokens.access),
-      },
-    });
+    let response = await fetch(
+      `http://127.0.0.1:8000/api/songs/?page=${page_num}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+      }
+    );
     let data = await response.json();
 
     if (response.status === 200) {
